@@ -13,11 +13,16 @@ namespace testeVisualização3d
         const float cubeSize = 500;
 
         private Timer timer = new Timer();
+        private bool autoRotation = false;
+
+        private int input_x = 0;
+        private int input_y = 0;
 
         public Form1()
         {
             InitializeComponent();
             this.SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer, true);
+            this.KeyPreview = true;
 
             //to centralize
             float size = cubeSize / 2;
@@ -62,12 +67,59 @@ namespace testeVisualização3d
             timer.Interval = 24;
             timer.Tick += (s, eA) =>
             {
-                cube.AngleX++;
-                cube.AngleY++;
+
+                if (autoRotation) 
+                {
+                    cube.AngleX++;
+                    cube.AngleY++;
+                }
+                else 
+                {
+                    if (input_x == -1)
+                        cube.AngleY--;
+                    else if (input_x == 1)
+                        cube.AngleY++;
+
+                    if (input_y == -1)
+                        cube.AngleX--;
+                    else if (input_y == 1)
+                        cube.AngleX++;
+                }
+
                 this.Invalidate();
             };
 
             timer.Start();
+        }
+
+        protected override void OnKeyDown(KeyEventArgs e)
+        {
+            base.OnKeyDown(e);
+
+            if (e.KeyCode == Keys.Down)
+                input_y = 1;
+
+            else if (e.KeyCode == Keys.Up)
+                input_y = -1;
+
+            if (e.KeyCode == Keys.Left)
+                input_x = -1;
+            else if (e.KeyCode == Keys.Right)
+                input_x = 1;
+
+            if (e.KeyCode == Keys.Space)
+                autoRotation = !autoRotation;
+        }
+
+        protected override void OnKeyUp(KeyEventArgs e)
+        {
+            base.OnKeyUp(e);
+
+            if (e.KeyCode == Keys.Down || e.KeyCode == Keys.Up)
+                input_y = 0;
+
+            if (e.KeyCode == Keys.Left || e.KeyCode == Keys.Right)
+                input_x = 0;
         }
 
         protected override void OnPaint(PaintEventArgs e)
