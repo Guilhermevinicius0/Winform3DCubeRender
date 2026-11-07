@@ -72,6 +72,7 @@ O projeto foi feito para o .NET Framework 4.7.2 e é planejado para Windows.
 ## Controles
 
 | Tecla |	Ação |
+| ---- | ---- |
 | ← / → |	Rotaciona o cubo no eixo Y |
 | ↑ / ↓	| Rotaciona o cubo no eixo X |
 | Espaço |	Liga/Desliga a rotação automática |
